@@ -27,8 +27,13 @@ services:
   node:
     build: ./node
     container_name: node
+    entrypoint: wait-for db:3306 -t 40 -- node index.js
+    volumes:
+      - ./node:/home/app
     networks:
       - node-network
+    depends_on:
+      - db
 
 networks:
   node-network:
